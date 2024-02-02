@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from "./organization.module.css"
+import styles from "../organization/organization.module.css"
  import Dashboard from '../dashboard/page'
 import { Grid } from '@mui/material'
 import Organizationtable from '../components/organizationtable'

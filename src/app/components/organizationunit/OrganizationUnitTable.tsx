@@ -23,7 +23,7 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
-import { Button, Grid, Modal, TextField } from "@mui/material";
+import { Autocomplete, Button, Grid, Modal, TextField } from "@mui/material";
 import Link from "next/link";
 import style from "styled-jsx/style";
 import CloseIcon from '@mui/icons-material/Close';
@@ -285,7 +285,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           {numSelected} selected
         </Typography>
       ) : (
-        <Typography sx={{ flex: "1 1 100%" }} variant="h6" id="tableTitle" component="div">Nutrition</Typography>
+        <Typography sx={{ flex: "1 1 100%" }} variant="h6" id="tableTitle" component="div">Organization Unit</Typography>
       )}
       {numSelected > 0 ? (
         <Tooltip title="Delete">
@@ -303,7 +303,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     </Toolbar>
   );
 }
-export default function organizationtable() {
+export default function OrganizationUnitTable() {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("calories");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
@@ -314,6 +314,20 @@ export default function organizationtable() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+
+  const OrgNameList = [
+    {"id": 1, "name": "Tech Innovators Inc"},
+    {"id": 2, "name": "Global Solutions Co."},
+    {"id": 3, "name": "Creative Minds Group"},
+    {"id": 4, "name": "Data Dynamics Ltd"},
+    {"id": 5, "name": "Infinite Innovations Corporation"},
+    {"id": 6, "name": "Web Wizards Enterprises"},
+    {"id": 7, "name": "Future Systems Ltd"},
+    {"id": 8, "name": "Digital Ventures LLC"},
+    {"id": 9, "name": "CodeCrafters Technologies"},
+    {"id": 10, "name": "InnoSoft Solutions"}
+  ]
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -396,17 +410,18 @@ export default function organizationtable() {
 
   return (
     <Box sx={{ width: "100%" }}>
-             <Grid style={{textAlign:"center"}}><span  style={{fontWeight:"700",fontSize:"25px"}}>Invest4Edu Pvt Ltd</span></Grid>
+             <Grid style={{textAlign:"center"}}><span  style={{fontWeight:"700",fontSize:"25px"}}>welcome Organization Unit</span></Grid>
         <Grid style={{ display:"flex",justifyContent:"flex-end", paddingBottom:"5px"}}>
             <Button  onClick={handleOpen}  variant="contained" >ADD</Button>            
             </Grid>
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
+        <TableContainer  >
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
             size={dense ? "small" : "medium"}
+            
           >
             <EnhancedTableHead
               numSelected={selected.length}
@@ -416,7 +431,7 @@ export default function organizationtable() {
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
             />
-            <TableBody>
+            <TableBody >
               {visibleRows.map((row, index) => {
                 const isItemSelected = isSelected(row.id);
                 const labelId = `enhanced-table-checkbox-${index}`;
@@ -450,7 +465,7 @@ export default function organizationtable() {
                     <TableCell align="center">{row.cinNumber}</TableCell>
                     <TableCell align="center">{row.orgAddress}</TableCell>
                     <TableCell align="center">
-                      <Link href={`/organization/${row.id}`}><Button variant="contained"> View</Button></Link>
+                      <Link href={`/organizationunit/${row.id}`}><Button variant="contained"> View</Button></Link>
                     </TableCell>
                   </TableRow>
                 );
@@ -489,15 +504,13 @@ export default function organizationtable() {
       >
           <Box sx={style}>
           <IconButton
-      style={{
-
-      }}
+      style={{ position: 'absolute',fontSize:"18px" ,top: "8px", right: "5px"}}
       onClick={() => handleClose()}
     >
       <CloseIcon style={{fontSize:"18px"}} />
     </IconButton>
         <div style={{textAlign:'center',paddingBottom:"10px"}}>
-        <h2>Creat Organization</h2>
+        <h2>Creat Organization Unit</h2>
         </div>
     
         <form >
@@ -505,7 +518,7 @@ export default function organizationtable() {
             <Grid item xs={12} sm={9} md={6} lg={3}>
                 <TextField
                   id="outlined-basic"
-                  label="Organization Name"
+                  label="Organization Unit Name"
                   variant="outlined"
                   fullWidth
                 />
@@ -513,7 +526,43 @@ export default function organizationtable() {
               <Grid item xs={12} sm={9} md={6} lg={3}>
                 <TextField
                   id="outlined-basic"
-                  label="Organization Logo"
+                  label="Organization Type"
+                  variant="outlined"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={9} md={6} lg={3}>
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            options={OrgNameList}
+            getOptionLabel={(option) => option.name}
+            sx={{ width: 300 }}
+            renderInput={(params) => <TextField {...params} label="Organization Unit" variant="standard" fullWidth/>}
+          />
+              </Grid>
+              <Grid item xs={12} sm={9} md={6} lg={3}>
+                <TextField
+                  id="outlined-basic"
+                  label="Organization Description"
+                  variant="outlined"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={9} md={6} lg={3}>
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            options={OrgNameList}
+            getOptionLabel={(option) => option.name}
+            sx={{ width: 300 }}
+            renderInput={(params) => <TextField {...params} label="Risk Organization" variant="standard" fullWidth/>}
+          />
+              </Grid>
+              <Grid item xs={12} sm={9} md={6} lg={3}>
+                <TextField
+                  id="outlined-basic"
+                  label="Compliance training "
                   variant="outlined"
                   fullWidth
                 />
@@ -521,7 +570,7 @@ export default function organizationtable() {
               <Grid item xs={12} sm={9} md={6} lg={3}>
                 <TextField
                   id="outlined-basic"
-                  label="Gst Number"
+                  label="products/systems"
                   variant="outlined"
                   fullWidth
                 />
@@ -529,7 +578,7 @@ export default function organizationtable() {
               <Grid item xs={12} sm={9} md={6} lg={3}>
                 <TextField
                   id="outlined-basic"
-                  label="Organization Address"
+                  label="processnotes"
                   variant="outlined"
                   fullWidth
                 />
@@ -537,7 +586,7 @@ export default function organizationtable() {
               <Grid item xs={12} sm={9} md={6} lg={3}>
                 <TextField
                   id="outlined-basic"
-                  label="Type of Industry"
+                  label="Board reporting"
                   variant="outlined"
                   fullWidth
                 />
@@ -545,7 +594,7 @@ export default function organizationtable() {
               <Grid item xs={12} sm={9} md={6} lg={3}>
                 <TextField
                   id="outlined-basic"
-                  label="Cin_Number"
+                  label="Assessment of level"
                   variant="outlined"
                   fullWidth
                 />
@@ -553,7 +602,7 @@ export default function organizationtable() {
               <Grid item xs={12} sm={9} md={6} lg={3}>
                 <TextField
                   id="outlined-basic"
-                  label="Regulated By"
+                  label="Likelihood Rating"
                   variant="outlined"
                   fullWidth
                 />
@@ -561,7 +610,7 @@ export default function organizationtable() {
               <Grid item xs={12} sm={9} md={6} lg={3}>
                 <TextField
                   id="outlined-basic"
-                  label="Types of Licenses"
+                  label="Likelihood Score"
                   variant="outlined"
                   fullWidth
                 />

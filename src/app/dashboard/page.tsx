@@ -28,12 +28,10 @@ const page = () => {
 
   const drawerItems = [
     { title: "", link: "", icon: "", type: "A" },
-    {
-      title: "Organization",
-      link: "/organization",
-      icon: <ManageAccountsIcon />,
-    },
+    {title: "Organization",link: "/organization",icon: <ManageAccountsIcon />,},
+    {title: "Organization Unit",link: "/organizationunit",icon: <ManageAccountsIcon />,},
     { title: "Product", link: "/product", icon: <ManageAccountsIcon /> },
+    
   ];
 
   const Drawer = styled(MuiDrawer, {
@@ -117,6 +115,7 @@ const page = () => {
           ))}
         </List>
       </Drawer>
+      {/* <h1> Welcome To Complisutra Dashboard</h1> */}
     </>
   );
 };

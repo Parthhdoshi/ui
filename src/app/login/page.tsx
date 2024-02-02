@@ -2,21 +2,37 @@
 import React, { useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import { Box, Card, Container, Grid, Modal, TextField, Typography } from '@mui/material';
+import { Box, Card, Container, FormControl, Grid, IconButton, InputAdornment, InputLabel, Modal, OutlinedInput, TextField, Typography } from '@mui/material';
 import styles from "./login.module.css"
 import Image from 'next/image';
 import userlogo from "../../Image/userlogo.png"
 import reseticone from "../../Image/reseticone.png"
 import Link from 'next/link';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const page =()=> {
   const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  // const [password, setPassword] = useState('');
   const [open, setOpen] = React.useState(false);
+  const [userid, setUserId] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
+  
 
   const handleSubmit = (e:any) => {
     e.preventDefault();
-    console.log('Submitted:', { username, password });
+    console.log('Submitted:', { username, showPassword });
+  };
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
+
+  const handleResetPass= (e:any) => {
+    e.preventDefault();
+    setSubmitted(true);
+    console.log('setrestPass:', { userid });
   };
 
 
@@ -41,13 +57,33 @@ const page =()=> {
             />
             </Grid>
             <Grid item xs={12}>
-            <TextField style={{width:"60%"}} id="outlined-basic" label="Password" variant="outlined" required
+            {/* <TextField style={{width:"60%"}} id="outlined-basic" label="Password" variant="outlined" required
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             
-            />
+            /> */}
+             <FormControl sx={{ m: 1, width: '60%' }} variant="outlined">
+          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-password"
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password"
+          />
+        </FormControl>
             </Grid>
-            {password && username ? (
+            { username ? (
               <Grid item xs={12}>
                 <Link href="/dashboard">
                   <Button type="submit" variant="contained" color="primary">
@@ -82,19 +118,30 @@ const page =()=> {
         </div>
         <form >
             <Grid container spacing={2} style={{textAlign:"center"}} >
-           
-            <Grid item xs={12}>
-            <TextField id="standard-basic" label="New Password" variant="standard" />
-            </Grid>
-            <Grid item xs={12}>
-            <TextField id="standard-basic" label="Confirm New Password" variant="standard" />
-            </Grid>
-            <Grid item xs={12}>
-          <Button type="submit" variant="contained" color="primary">
+
+             <Grid item xs={12}>
+            <TextField id="standard-basic" label="Please Enter User ID" variant="standard" 
+              onChange={(e) => setUserId(e.target.value)}
+            />
           
-           Continue
-            </Button>
-          </Grid>
+            </Grid>
+               {submitted ?(
+                <>
+                <Grid item xs={12}>
+                <TextField id="standard-basic" label="New Password" variant="standard" />
+                </Grid>
+                <Grid item xs={12}>
+                <TextField id="standard-basic" label="Confirm New Password" variant="standard" />
+                </Grid>
+                <Grid item xs={12}>
+              <Button type="submit" variant="contained" color="primary">Continue</Button>
+              </Grid>
+              </>
+               ):(
+                <Grid item xs={12}>
+                <Button   variant="contained" color="primary" onClick={handleResetPass}>Send Password</Button>
+                </Grid>
+               )}
             </Grid>
         </form>
           <Grid>
@@ -112,7 +159,7 @@ const page =()=> {
 export default page;
 const style = {
   position: 'absolute' as 'absolute',
-  top: '25%',
+  top: '35%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 500,
