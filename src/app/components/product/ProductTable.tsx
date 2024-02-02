@@ -1,27 +1,28 @@
-'use client'
-import * as React from 'react';
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import { visuallyHidden } from '@mui/utils';
-import { Button } from '@mui/material';
+"use client";
+import * as React from "react";
+import { alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import Checkbox from "@mui/material/Checkbox";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
+import DeleteIcon from "@mui/icons-material/Delete";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import { visuallyHidden } from "@mui/utils";
+import { Button } from "@mui/material";
+import Link from "next/link";
 
 interface Data {
   id: number;
@@ -34,30 +35,30 @@ function createData(
   id: number,
   name: string,
   calories: string,
-  fat: string,
+  fat: string
 ): Data {
   return {
     id,
     name,
     calories,
-    fat
-};
+    fat,
+  };
 }
 
 const rows = [
-  createData(1, 'Product 1', "Org Name", "Some Desc"),
-  createData(2, 'Product 2', "Org Name", "Some Desc"),
-  createData(3, 'Product 3', "Org Name", "Some Desc"),
-  createData(4, 'Product 4', "Org Name", "Some Desc"),
-  createData(5, 'Product 5', "Org Name", "Some Desc"),
-  createData(6, 'Product 6', "Org Name", "Some Desc"),
-  createData(7, 'Product 7', "Org Name", "Some Desc"),
-  createData(8, 'Product 8', "Org Name", "Some Desc"),
-  createData(9, 'Product 9', "Org Name", "Some Desc"),
-  createData(10, 'Product 10', "Org Name", "Some Desc"),
-  createData(11, 'Product 11',"Org Name", "Some Desc"),
-  createData(12, 'Product 12', "Org Name", "Some Desc"),
-  createData(13, 'Product 13', "Org Name", "Some Desc"),
+  createData(1, "Product 1", "Org Name", "Some Desc"),
+  createData(2, "Product 2", "Org Name", "Some Desc"),
+  createData(3, "Product 3", "Org Name", "Some Desc"),
+  createData(4, "Product 4", "Org Name", "Some Desc"),
+  createData(5, "Product 5", "Org Name", "Some Desc"),
+  createData(6, "Product 6", "Org Name", "Some Desc"),
+  createData(7, "Product 7", "Org Name", "Some Desc"),
+  createData(8, "Product 8", "Org Name", "Some Desc"),
+  createData(9, "Product 9", "Org Name", "Some Desc"),
+  createData(10, "Product 10", "Org Name", "Some Desc"),
+  createData(11, "Product 11", "Org Name", "Some Desc"),
+  createData(12, "Product 12", "Org Name", "Some Desc"),
+  createData(13, "Product 13", "Org Name", "Some Desc"),
 ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -70,16 +71,16 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-type Order = 'asc' | 'desc';
+type Order = "asc" | "desc";
 
 function getComparator<Key extends keyof any>(
   order: Order,
-  orderBy: Key,
+  orderBy: Key
 ): (
   a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string },
+  b: { [key in Key]: number | string }
 ) => number {
-  return order === 'desc'
+  return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -88,7 +89,10 @@ function getComparator<Key extends keyof any>(
 // stableSort() brings sort stability to non-modern browsers (notably IE11). If you
 // only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
 // with exampleArray.slice().sort(exampleComparator)
-function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
+function stableSort<T>(
+  array: readonly T[],
+  comparator: (a: T, b: T) => number
+) {
   const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -109,34 +113,37 @@ interface HeadCell {
 
 const headCells: readonly HeadCell[] = [
   {
-    id: 'name',
+    id: "name",
     numeric: false,
     disablePadding: true,
-    label: 'Product Name',
+    label: "Product Name",
   },
   {
-    id: 'calories',
+    id: "calories",
     numeric: true,
     disablePadding: false,
-    label: 'Org Name',
+    label: "Org Name",
   },
   {
-    id: 'fat',
+    id: "fat",
     numeric: true,
     disablePadding: false,
-    label: 'Description',
+    label: "Description",
   },
   {
-    id: 'name',
+    id: "name",
     numeric: true,
     disablePadding: false,
-    label: 'action',
+    label: "action",
   },
 ];
 
 interface EnhancedTableProps {
   numSelected: number;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
+  onRequestSort: (
+    event: React.MouseEvent<unknown>,
+    property: keyof Data
+  ) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
   orderBy: string;
@@ -144,8 +151,14 @@ interface EnhancedTableProps {
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-    props;
+  const {
+    onSelectAllClick,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort,
+  } = props;
   const createSortHandler =
     (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
@@ -161,26 +174,26 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
-              'aria-label': 'select all desserts',
+              "aria-label": "select all desserts",
             }}
           />
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
+            align={headCell.numeric ? "right" : "left"}
+            padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
+              direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </Box>
               ) : null}
             </TableSortLabel>
@@ -205,13 +218,16 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         pr: { xs: 1, sm: 1 },
         ...(numSelected > 0 && {
           bgcolor: (theme) =>
-            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+            alpha(
+              theme.palette.primary.main,
+              theme.palette.action.activatedOpacity
+            ),
         }),
       }}
     >
       {numSelected > 0 ? (
         <Typography
-          sx={{ flex: '1 1 100%' }}
+          sx={{ flex: "1 1 100%" }}
           color="inherit"
           variant="subtitle1"
           component="div"
@@ -220,7 +236,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         </Typography>
       ) : (
         <Typography
-          sx={{ flex: '1 1 100%' }}
+          sx={{ flex: "1 1 100%" }}
           variant="h6"
           id="tableTitle"
           component="div"
@@ -245,8 +261,8 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   );
 }
 export default function ProductTable() {
-  const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
+  const [order, setOrder] = React.useState<Order>("asc");
+  const [orderBy, setOrderBy] = React.useState<keyof Data>("calories");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -254,10 +270,10 @@ export default function ProductTable() {
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof Data,
+    property: keyof Data
   ) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
@@ -283,7 +299,7 @@ export default function ProductTable() {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
+        selected.slice(selectedIndex + 1)
       );
     }
     setSelected(newSelected);
@@ -293,7 +309,9 @@ export default function ProductTable() {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
@@ -312,20 +330,20 @@ export default function ProductTable() {
     () =>
       stableSort(rows, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage,
+        page * rowsPerPage + rowsPerPage
       ),
-    [order, orderBy, page, rowsPerPage],
+    [order, orderBy, page, rowsPerPage]
   );
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
+    <Box sx={{ width: "100%" }}>
+      <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
+            size={dense ? "small" : "medium"}
           >
             <EnhancedTableHead
               numSelected={selected.length}
@@ -349,14 +367,14 @@ export default function ProductTable() {
                     tabIndex={-1}
                     key={row.id}
                     selected={isItemSelected}
-                    sx={{ cursor: 'pointer' }}
+                    sx={{ cursor: "pointer" }}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox
                         color="primary"
                         checked={isItemSelected}
                         inputProps={{
-                          'aria-labelledby': labelId,
+                          "aria-labelledby": labelId,
                         }}
                       />
                     </TableCell>
@@ -370,7 +388,13 @@ export default function ProductTable() {
                     </TableCell>
                     <TableCell align="right">{row.calories}</TableCell>
                     <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right"><Button variant="contained" onClick={()=>{}} > View </Button ></TableCell>
+                    <TableCell align="right">
+                      <Link href={`/product/${row.id}`}>
+                        <Button variant="contained">
+                          View
+                        </Button>
+                      </Link>
+                    </TableCell>
                   </TableRow>
                 );
               })}
